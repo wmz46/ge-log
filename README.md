@@ -4,7 +4,8 @@
 
 调用
 ```js
-GeLog.info('hello','world')
+import log from '@wmz46/go-log'
+log.info('hello','world')
 ```
 在控制台输出结果如下
 ```
@@ -32,7 +33,8 @@ yarn add @wmz46/ge-log --registry=https://npm.pkg.github.com
   <script src='dist/index.umd.js'></script>
   <script>
     //请参考后面文档写法
-    GeLog.info('hello world')
+    const log = GeLog
+    log.info('hello world')
     ...
   </script>
 </head>
@@ -41,23 +43,23 @@ yarn add @wmz46/ge-log --registry=https://npm.pkg.github.com
 ### 3.打印日志
 接口调用同console,目前支持的日志方法有debug,trace,info,log,warn,error
 ```js
-  import GeLog from '@wmz46/go-log'
-  GeLog.trace('hi')
-  GeLog.debug('hi')
-  GeLog.log('hi')
-  GeLog.info('hi')
-  GeLog.warn('hi')
-  GeLog.error('hi')
+  import log from '@wmz46/go-log'
+  log.trace('hi')
+  log.debug('hi')
+  log.log('hi')
+  log.info('hi')
+  log.warn('hi')
+  log.error('hi')
 ```
 ### 4.代替默认console
 如果不想修改原日志代码，可以引入后调用`relaceConsole`方法来代替默认console
 ```js
-  GeLog.replaceConsole()
+  log.replaceConsole()
 ```
 ### 4.其他
 ```js
   // 关闭详细信息,关闭后效果同默认console
-  GeLog.showDetail = false
+  log.showDetail = false
   // 设置最低级别显示日志，枚举值如下
   // TRACE = 1,
   // DEBUG = 2,
@@ -65,7 +67,7 @@ yarn add @wmz46/ge-log --registry=https://npm.pkg.github.com
   // INFO = 4,
   // WARN = 5,
   // ERROR = 6
-  GeLog.level = 3
+  log.level = 3
 
 ```
 
