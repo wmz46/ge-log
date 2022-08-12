@@ -21,7 +21,6 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/wmz46"
   },
-  "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
