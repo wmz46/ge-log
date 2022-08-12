@@ -39,7 +39,7 @@ const getPlaceholderNum = (str: string) => {
   return arr.length
 }
 // 生成最终的打印参数数组
-const generateMessage = (level: LogLevel, ...args: any) => {
+const generateMessage = (level: LogLevel, ...args: any)  =>{
   const arr1 = [] // 占位符数组
   const arr2 = [] // 对象数组
 
@@ -94,6 +94,61 @@ const _info = console.info
 const _trace = console.trace
 const _warn = console.warn
 const _debug = console.debug
+const error = function(...args: any) {
+  if (level <= LogLevel.ERROR) {
+    if (showDetail) {
+      _error(...generateMessage(LogLevel.ERROR, ...args))
+    } else {
+      _error(...args)
+    }
+  }
+}
+const log=function(...args: any){
+  if (level <= LogLevel.LOG) {
+    if (showDetail) {
+      _log(...generateMessage(LogLevel.LOG, ...args))
+    } else {
+      _log(...args)
+    }
+  }
+}
+const info=function(...args: any) {
+  if (level <= LogLevel.INFO) {
+    if (showDetail) {
+      _info(...generateMessage(LogLevel.INFO, ...args))
+    } else {
+      _info(...args)
+    }
+  }
+}
+const debug=function(...args: any) {
+  if (level <= LogLevel.DEBUG) {
+    if (showDetail) {
+      _debug(...generateMessage(LogLevel.DEBUG, ...args))
+    } else {
+      _debug(...args)
+    }
+  }
+}
+const trace=function(...args: any) {
+  if (level <= LogLevel.TRACE) {
+    if (showDetail) {
+      _trace(...generateMessage(LogLevel.TRACE, ...args))
+    } else {
+      _trace(...args)
+    }
+  }
+}
+const warn=function(...args: any) {
+  if (level <= LogLevel.WARN) {
+
+    if (showDetail) {
+      _warn(...generateMessage(LogLevel.WARN, ...args))
+    } else {
+      _warn(...args)
+    }
+  }
+}
 /**
  * 是否显示日志详情
  */
@@ -102,7 +157,7 @@ let showDetail = true
 * 最低显示级别日志
 */
 let level = LogLevel.TRACE
-const log = {
+const GeLog = {
   get version() {
     return config.version
   },
@@ -125,80 +180,19 @@ const log = {
     level = value
   },
 
-  error(...args: any) {
-    if (level <= LogLevel.ERROR) {
-      if (showDetail) {
-        _error(...generateMessage(LogLevel.ERROR, ...args))
-      } else {
-        _error(...args)
-      }
-    }
-  },
-  log(...args: any) {
-    if (level <= LogLevel.LOG) {
-      if (showDetail) {
-        _log(...generateMessage(LogLevel.LOG, ...args))
-      } else {
-        _log(...args)
-      }
-    }
-  },
-  info(...args: any) {
-    if (level <= LogLevel.INFO) {
-      if (showDetail) {
-        _info(...generateMessage(LogLevel.INFO, ...args))
-      } else {
-        _info(...args)
-      }
-    }
-  },
-  debug(...args: any) {
-    if (level <= LogLevel.DEBUG) {
-      if (showDetail) {
-        _debug(...generateMessage(LogLevel.DEBUG, ...args))
-      } else {
-        _debug(...args)
-      }
-    }
-  },
-  trace(...args: any) {
-    if (level <= LogLevel.TRACE) {
-      if (showDetail) {
-        _trace(...generateMessage(LogLevel.TRACE, ...args))
-      } else {
-        _trace(...args)
-      }
-    }
-  },
-  warn(...args: any) {
-    if (level <= LogLevel.WARN) {
-
-      if (showDetail) {
-        _warn(...generateMessage(LogLevel.WARN, ...args))
-      } else {
-        _warn(...args)
-      }
-    }
-  },
+  error:error,
+  log:log,
+  info:info,
+  debug:debug,
+  trace:trace,
+  warn:warn,
   replaceConsole() {
-    console.log = function (...args: any) {
-      log.log.call(console, ...args)
-    }
-    console.error = function (...args: any) {
-      log.error.call(console, ...args)
-    }
-    console.debug = function (...args: any) {
-      log.debug.call(console, ...args)
-    }
-    console.trace = function (...args: any) {
-      log.trace.call(console, ...args)
-    }
-    console.info = function (...args: any) {
-      log.info.call(console, ...args)
-    }
-    console.warn = function (...args: any) {
-      log.warn.call(console, ...args)
-    }
+    console.log = log
+    console.error =error
+    console.debug =debug
+    console.trace = trace
+    console.info =info
+    console.warn =warn
   }
 }
-export default log
+export default GeLog

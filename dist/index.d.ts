@@ -6,16 +6,16 @@ declare enum LogLevel {
     WARN = 5,
     ERROR = 6
 }
-declare const log: {
+declare const GeLog: {
     readonly version: string;
     showDetail: boolean;
     level: LogLevel;
-    error(...args: any): void;
-    log(...args: any): void;
-    info(...args: any): void;
-    debug(...args: any): void;
-    trace(...args: any): void;
-    warn(...args: any): void;
+    error: (...args: any) => void;
+    log: (...args: any) => void;
+    info: (...args: any) => void;
+    debug: (...args: any) => void;
+    trace: (...args: any) => void;
+    warn: (...args: any) => void;
     replaceConsole(): void;
 };
-export default log;
+export default GeLog;

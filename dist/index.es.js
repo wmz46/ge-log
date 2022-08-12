@@ -1,141 +1,128 @@
-const w = "@wmz46/ge-log", A = "0.0.1", v = "./dist/index.umd.js", j = "./dist/index.es.js", O = "./dist/index.d.ts", $ = "module", B = [
+const $ = "@wmz46/ge-log", B = "0.0.2", C = "./dist/index.umd.js", x = "./dist/index.es.js", G = "./dist/index.d.ts", N = "module", _ = [
   "dist"
-], C = {
+], k = {
   ".": {
     import: "./dist/index.es.js",
     require: "./dist/index.umd.js"
   }
-}, x = {
+}, z = {
   type: "git",
   url: "https://github.com/wmz46/ge-log"
-}, N = {
+}, I = {
   registry: "https://npm.pkg.github.com/wmz46"
-}, G = {
+}, M = {
   dev: "vite",
   build: "vue-tsc --noEmit && vite build",
   "build:lib": "vue-tsc --noEmit && vite build --config ./build/lib.config.ts",
   preview: "vite preview"
-}, _ = {}, k = {
+}, S = {}, T = {
   "@vitejs/plugin-vue": "^3.0.2",
   typescript: "^4.6.4",
   vite: "^3.0.6",
   "vite-plugin-dts": "^1.4.1",
   vue: "^3.2.37",
   "vue-tsc": "^0.39.5"
-}, z = {
-  name: w,
-  version: A,
-  main: v,
-  module: j,
-  types: O,
-  type: $,
-  files: B,
-  exports: C,
-  repository: x,
-  publishConfig: N,
-  private: !0,
-  scripts: G,
-  dependencies: _,
-  devDependencies: k
+}, U = {
+  name: $,
+  version: B,
+  main: C,
+  module: x,
+  types: G,
+  type: N,
+  files: _,
+  exports: k,
+  repository: z,
+  publishConfig: I,
+  scripts: M,
+  dependencies: S,
+  devDependencies: T
 };
 var d = /* @__PURE__ */ ((e) => (e[e.TRACE = 1] = "TRACE", e[e.DEBUG = 2] = "DEBUG", e[e.LOG = 3] = "LOG", e[e.INFO = 4] = "INFO", e[e.WARN = 5] = "WARN", e[e.ERROR = 6] = "ERROR", e))(d || {});
-const I = {
+const W = {
   ERROR: "color:red",
   WARN: "color:orange",
   DEBUG: "color:gray",
   INFO: "color:green",
   LOG: "color:grean"
-}, M = (e) => {
-  const n = e.getFullYear(), o = e.getMonth() + 1, t = e.getDate(), a = e.getHours(), m = e.getMinutes(), l = e.getSeconds();
-  return `${n}-${o}-${t} ${a}:${m}:${l}`;
-}, S = (e) => {
+}, q = (e) => {
+  const o = e.getFullYear(), t = e.getMonth() + 1, n = e.getDate(), f = e.getHours(), g = e.getMinutes(), r = e.getSeconds();
+  return `${o}-${t}-${n} ${f}:${g}:${r}`;
+}, H = (e) => {
   if (e == null)
     return 0;
-  const n = e.match(/%[csdifoO]/g);
-  return n == null ? 0 : n.length;
-}, i = (e, ...n) => {
-  const o = [], t = [];
-  for (let p = 0; p < n.length; p++) {
-    const u = n[p];
+  const o = e.match(/%[csdifoO]/g);
+  return o == null ? 0 : o.length;
+}, i = (e, ...o) => {
+  const t = [], n = [];
+  for (let l = 0; l < o.length; l++) {
+    const u = o[l];
     if (typeof u == "object")
-      o.push("%o"), t.push(u);
+      t.push("%o"), n.push(u);
     else if (typeof u == "string") {
-      const h = S(u);
-      if (h > 0) {
-        o.push(u);
-        for (let g = 0; g < h; g++)
-          t.push(n[p + g + 1]);
-        p += h;
+      const a = H(u);
+      if (a > 0) {
+        t.push(u);
+        for (let h = 0; h < a; h++)
+          n.push(o[l + h + 1]);
+        l += a;
       } else
-        o.push("%s"), t.push(u);
+        t.push("%s"), n.push(u);
     } else
-      o.push("%s"), t.push(u);
+      t.push("%s"), n.push(u);
   }
-  const a = {};
-  Error.captureStackTrace(a, i);
-  const l = (a.stack || "").match(/at .*/g) || [];
-  o.push("%c"), t.push(I[d[e]]);
-  const E = [
+  const f = {};
+  Error.captureStackTrace(f, i);
+  const r = (f.stack || "").match(/at .*/g) || [];
+  t.push("%c"), n.push(W[d[e]]);
+  const m = [
     "",
     "",
-    `\u8C03\u7528\u65F6\u95F4\uFF1A${M(new Date())}`,
+    `\u8C03\u7528\u65F6\u95F4\uFF1A${q(new Date())}`,
     `\u65E5\u5FD7\u7EA7\u522B\uFF1A${d[e]}`
   ];
-  return l.splice(0, 1), l.length > 0 && (E.push("\u8C03\u7528\u5806\u6808\uFF1A%s"), t.push(`${l.join(`
-         `)}`)), o.push(E.join(`
-`)), [o.join(" "), ...t];
-}, F = console.log, b = console.error, f = console.info, D = console.trace, y = console.warn, R = console.debug;
+  return r.splice(0, 1), r.length > 0 && (m.push("\u8C03\u7528\u5806\u6808\uFF1A%s"), n.push(`${r.join(`
+         `)}`)), t.push(m.join(`
+`)), [t.join(" "), ...n];
+}, E = console.log, F = console.error, p = console.info, b = console.trace, D = console.warn, y = console.debug, R = function(...e) {
+  c <= 6 && F(...s ? i(6, ...e) : e);
+}, w = function(...e) {
+  c <= 3 && E(...s ? i(3, ...e) : e);
+}, A = function(...e) {
+  c <= 4 && p(...s ? i(4, ...e) : e);
+}, j = function(...e) {
+  c <= 2 && y(...s ? i(2, ...e) : e);
+}, v = function(...e) {
+  c <= 1 && b(...s ? i(1, ...e) : e);
+}, O = function(...e) {
+  c <= 5 && D(...s ? i(5, ...e) : e);
+};
 let s = !0, c = 1;
-const r = {
+const P = {
   get version() {
-    return z.version;
+    return U.version;
   },
   get showDetail() {
     return s;
   },
   set showDetail(e) {
-    f(e ? "\u5F00\u542F\u65E5\u5FD7\u8BE6\u60C5" : "\u5173\u95ED\u65E5\u5FD7\u8BE6\u60C5"), s = e;
+    p(e ? "\u5F00\u542F\u65E5\u5FD7\u8BE6\u60C5" : "\u5173\u95ED\u65E5\u5FD7\u8BE6\u60C5"), s = e;
   },
   get level() {
     return c;
   },
   set level(e) {
-    f(`\u8BBE\u7F6E\u65E5\u5FD7\u663E\u793A\u7EA7\u522B\u4E3A\uFF1A${d[e]}`), c = e;
+    p(`\u8BBE\u7F6E\u65E5\u5FD7\u663E\u793A\u7EA7\u522B\u4E3A\uFF1A${d[e]}`), c = e;
   },
-  error(...e) {
-    c <= 6 && b(...s ? i(6, ...e) : e);
-  },
-  log(...e) {
-    c <= 3 && F(...s ? i(3, ...e) : e);
-  },
-  info(...e) {
-    c <= 4 && f(...s ? i(4, ...e) : e);
-  },
-  debug(...e) {
-    c <= 2 && R(...s ? i(2, ...e) : e);
-  },
-  trace(...e) {
-    c <= 1 && D(...s ? i(1, ...e) : e);
-  },
-  warn(...e) {
-    c <= 5 && y(...s ? i(5, ...e) : e);
-  },
+  error: R,
+  log: w,
+  info: A,
+  debug: j,
+  trace: v,
+  warn: O,
   replaceConsole() {
-    console.log = function(...e) {
-      r.log.call(console, ...e);
-    }, console.error = function(...e) {
-      r.error.call(console, ...e);
-    }, console.debug = function(...e) {
-      r.debug.call(console, ...e);
-    }, console.trace = function(...e) {
-      r.trace.call(console, ...e);
-    }, console.info = function(...e) {
-      r.info.call(console, ...e);
-    }, console.warn = function(...e) {
-      r.warn.call(console, ...e);
-    };
+    console.log = w, console.error = R, console.debug = j, console.trace = v, console.info = A, console.warn = O;
   }
 };
 export {
-  r as default
+  P as default
 };
