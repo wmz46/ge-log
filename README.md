@@ -56,7 +56,7 @@ yarn add @wmz46/ge-log --registry=https://npm.pkg.github.com
 ```js
   log.replaceConsole()
 ```
-### 4.其他
+### 5.其他
 ```js
   // 关闭详细信息,关闭后效果同默认console
   log.showDetail = false
