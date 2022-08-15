@@ -20,18 +20,18 @@ hello world
 ## 使用方法
 
 ### 1.使用包管理器安装
-```js
-npm install @wmz46/ge-log --registry=https://npm.pkg.github.com
-# 或
-yarn add @wmz46/ge-log --registry=https://npm.pkg.github.com
-```
 需要有github read:packages 权限的token    
-可在.npmrc中加入源和token    
+在.npmrc中加入源和token    
 ```
 @wmz46:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken={你的token}
-registry=http://registry.npmjs.org
+//npm.pkg.github.com/:_authToken={你的token
 ```
+```js
+npm install @wmz46/ge-log
+# 或
+yarn add @wmz46/ge-log
+```
+
 
 ### 2.浏览器直接引入
 将`dist/index.umd.js`拷贝到你的项目
