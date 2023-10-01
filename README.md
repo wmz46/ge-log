@@ -20,11 +20,11 @@ hello world
 ## 使用方法
 
 ### 1.使用包管理器安装
-需要有github read:packages 权限的token    
-在.npmrc中加入源和token    
+需要有github read:packages 权限的token
+在.npmrc中加入源和token
 ```
 @wmz46:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken={你的token
+//npm.pkg.github.com/:_authToken={你的token}
 ```
 ```js
 npm install @wmz46/ge-log
@@ -75,9 +75,42 @@ yarn add @wmz46/ge-log
   // WARN = 5,
   // ERROR = 6
   log.level = 3
+  //设置最大堆栈层数，0不显示
+  log.maxStackLevel = 1
+  //设置是否显示堆栈信息
+  log.showStack = false
+  //设置是否显示日志级别
+  log.showLevel = false
 
 ```
+### 6.和VConsole一起使用的注意事项
 
+如果使用了GeLog的代替默认console功能，需注意和VConsole的兼容问题。
+
+GeLog原理和VConsole以及其他日志插件原理一样，均是替换原始`console`来实现。
+
+既然要替换，必定会先要把原始`console`对应的log、info、error、debug存储起来。
+
+假如GeLog和VConsole是在同个\<script>下，则会出现大家都缓存了最原始的`console`，从而导致出现不兼容的情况。
+
+比较好的方案是先初始化VConsole先替换原始`console`，然后GeLog再替换被VConsole替换的的`console`。
+
+VConsole有以下几种引入方式
+- 1.微信小程序调试模式
+由于代码不需要引入VConsole，不存在冲突，GeLog可以直接使用
+- 2.VConsole是通过html直接引入
+由于\<script>隔离，不存在冲突，GeLog可以直接使用
+- **3.VConsole通过npm引入**
+npm处理比较麻烦，原因编译后都是在同个\<script>，所以需要通过异步引入GeLog
+```ts
+import VConsole from 'vconsole';
+const vConsole = new VConsole();
+import('@wmz46/ge-log').then((module:any)=>{
+  const GeLog = module.default
+  GeLog.replaceConsole()
+})
+
+```
 
 ## 发布到github package（作者发布备忘）
 

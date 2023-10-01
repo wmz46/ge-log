@@ -1,4 +1,4 @@
-import config from '../package.json'
+import {version} from '../package.json'
 // 定义日志等级
 enum LogLevel {
   TRACE = 1,
@@ -39,7 +39,7 @@ const getPlaceholderNum = (str: string) => {
   return arr.length
 }
 // 生成最终的打印参数数组
-const generateMessage = (level: LogLevel, ...args: any)  =>{
+const generateMessage = (level: LogLevel, ...args: any) => {
   const arr1 = [] // 占位符数组
   const arr2 = [] // 对象数组
 
@@ -74,18 +74,23 @@ const generateMessage = (level: LogLevel, ...args: any)  =>{
   arr2.push(Style[LogLevel[level]])
   const arr = [
     '',
-    '',
-    `调用时间：${formatDate(new Date())}`,
-    `日志级别：${LogLevel[level]}`
+    `调用时间：${formatDate(new Date())}`
   ]
-
-  // 处理堆栈信息
-  matchResult.splice(0, 1)
-  if (matchResult.length > 0) {
-    arr.push('调用堆栈：%s')
-    arr2.push(`${matchResult.join('\n         ')}`)
+  if (showLevel) {
+    arr.push(`日志级别：${LogLevel[level]}`)
   }
-  arr1.push(arr.join('\n'))
+
+  if (showStack) {
+    // 处理堆栈信息
+    matchResult.splice(0, 1)
+    if (maxStackLevel > 0 && matchResult.length > maxStackLevel) {
+      matchResult.splice(maxStackLevel, matchResult.length - maxStackLevel)
+    }
+    if (matchResult.length > 0) {
+      arr.push(`调用堆栈：${matchResult.join('\r\n         ')}`)
+    }
+  }
+  arr1.push(arr.join('\r\n'))
   return [arr1.join(' '), ...arr2]
 }
 const _log = console.log
@@ -94,7 +99,7 @@ const _info = console.info
 const _trace = console.trace
 const _warn = console.warn
 const _debug = console.debug
-const error = function(...args: any) {
+const error = function (...args: any) {
   if (level <= LogLevel.ERROR) {
     if (showDetail) {
       _error(...generateMessage(LogLevel.ERROR, ...args))
@@ -103,7 +108,7 @@ const error = function(...args: any) {
     }
   }
 }
-const log=function(...args: any){
+const log = function (...args: any) {
   if (level <= LogLevel.LOG) {
     if (showDetail) {
       _log(...generateMessage(LogLevel.LOG, ...args))
@@ -112,7 +117,7 @@ const log=function(...args: any){
     }
   }
 }
-const info=function(...args: any) {
+const info = function (...args: any) {
   if (level <= LogLevel.INFO) {
     if (showDetail) {
       _info(...generateMessage(LogLevel.INFO, ...args))
@@ -121,7 +126,7 @@ const info=function(...args: any) {
     }
   }
 }
-const debug=function(...args: any) {
+const debug = function (...args: any) {
   if (level <= LogLevel.DEBUG) {
     if (showDetail) {
       _debug(...generateMessage(LogLevel.DEBUG, ...args))
@@ -130,7 +135,7 @@ const debug=function(...args: any) {
     }
   }
 }
-const trace=function(...args: any) {
+const trace = function (...args: any) {
   if (level <= LogLevel.TRACE) {
     if (showDetail) {
       _trace(...generateMessage(LogLevel.TRACE, ...args))
@@ -139,7 +144,7 @@ const trace=function(...args: any) {
     }
   }
 }
-const warn=function(...args: any) {
+const warn = function (...args: any) {
   if (level <= LogLevel.WARN) {
 
     if (showDetail) {
@@ -154,12 +159,23 @@ const warn=function(...args: any) {
  */
 let showDetail = true
 /**
+ * 是否显示日志级别
+ */
+let showLevel = true
+/** 显示堆栈信息 */
+let showStack = true
+/**
+ * 最多堆栈层级，0表示不限制
+ */
+let maxStackLevel = 0
+
+/**
 * 最低显示级别日志
 */
 let level = LogLevel.TRACE
 const GeLog = {
   get version() {
-    return config.version
+    return version
   },
   get showDetail() {
     return showDetail
@@ -172,6 +188,36 @@ const GeLog = {
     }
     showDetail = value
   },
+
+  get showLevel() {
+    return showLevel
+  },
+  set showLevel(value: boolean) {
+    if (value) {
+      _info('开启日志级别显示')
+    } else {
+      _info('关闭日志级别显示')
+    }
+    showLevel = value
+  },
+  get showStack() {
+    return showStack
+  },
+  set showStack(value) {
+    if (value) {
+      _info('开启堆栈信息显示')
+    } else {
+      _info('关闭堆栈信息显示')
+    }
+    showStack = value
+  },
+  get maxStackLevel() {
+    return maxStackLevel
+  },
+  set maxStackLevel(value: number) {
+    _info('限制堆栈层级最多为' + value + '(0不限制)')
+    maxStackLevel = value
+  },
   get level() {
     return level
   },
@@ -180,19 +226,19 @@ const GeLog = {
     level = value
   },
 
-  error:error,
-  log:log,
-  info:info,
-  debug:debug,
-  trace:trace,
-  warn:warn,
+  error: error,
+  log: log,
+  info: info,
+  debug: debug,
+  trace: trace,
+  warn: warn,
   replaceConsole() {
     console.log = log
-    console.error =error
-    console.debug =debug
+    console.error = error
+    console.debug = debug
     console.trace = trace
-    console.info =info
-    console.warn =warn
+    console.info = info
+    console.warn = warn
   }
 }
 export default GeLog

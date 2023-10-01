@@ -1,128 +1,106 @@
-const $ = "@wmz46/ge-log", B = "0.0.2", C = "./dist/index.umd.js", x = "./dist/index.es.js", G = "./dist/index.d.ts", N = "module", _ = [
-  "dist"
-], k = {
-  ".": {
-    import: "./dist/index.es.js",
-    require: "./dist/index.umd.js"
-  }
-}, z = {
-  type: "git",
-  url: "https://github.com/wmz46/ge-log"
-}, I = {
-  registry: "https://npm.pkg.github.com/wmz46"
-}, M = {
-  dev: "vite",
-  build: "vue-tsc --noEmit && vite build",
-  "build:lib": "vue-tsc --noEmit && vite build --config ./build/lib.config.ts",
-  preview: "vite preview"
-}, S = {}, T = {
-  "@vitejs/plugin-vue": "^3.0.2",
-  typescript: "^4.6.4",
-  vite: "^3.0.6",
-  "vite-plugin-dts": "^1.4.1",
-  vue: "^3.2.37",
-  "vue-tsc": "^0.39.5"
-}, U = {
-  name: $,
-  version: B,
-  main: C,
-  module: x,
-  types: G,
-  type: N,
-  files: _,
-  exports: k,
-  repository: z,
-  publishConfig: I,
-  scripts: M,
-  dependencies: S,
-  devDependencies: T
-};
-var d = /* @__PURE__ */ ((e) => (e[e.TRACE = 1] = "TRACE", e[e.DEBUG = 2] = "DEBUG", e[e.LOG = 3] = "LOG", e[e.INFO = 4] = "INFO", e[e.WARN = 5] = "WARN", e[e.ERROR = 6] = "ERROR", e))(d || {});
-const W = {
+const d = "0.0.3";
+var h = /* @__PURE__ */ ((u) => (u[u.TRACE = 1] = "TRACE", u[u.DEBUG = 2] = "DEBUG", u[u.LOG = 3] = "LOG", u[u.INFO = 4] = "INFO", u[u.WARN = 5] = "WARN", u[u.ERROR = 6] = "ERROR", u))(h || {});
+const j = {
   ERROR: "color:red",
   WARN: "color:orange",
   DEBUG: "color:gray",
   INFO: "color:green",
   LOG: "color:grean"
-}, q = (e) => {
-  const o = e.getFullYear(), t = e.getMonth() + 1, n = e.getDate(), f = e.getHours(), g = e.getMinutes(), r = e.getSeconds();
-  return `${o}-${t}-${n} ${f}:${g}:${r}`;
-}, H = (e) => {
-  if (e == null)
+}, y = (u) => {
+  const o = u.getFullYear(), t = u.getMonth() + 1, n = u.getDate(), a = u.getHours(), R = u.getMinutes(), s = u.getSeconds();
+  return `${o}-${t}-${n} ${a}:${R}:${s}`;
+}, _ = (u) => {
+  if (u == null)
     return 0;
-  const o = e.match(/%[csdifoO]/g);
+  const o = u.match(/%[csdifoO]/g);
   return o == null ? 0 : o.length;
-}, i = (e, ...o) => {
+}, i = (u, ...o) => {
   const t = [], n = [];
-  for (let l = 0; l < o.length; l++) {
-    const u = o[l];
-    if (typeof u == "object")
-      t.push("%o"), n.push(u);
-    else if (typeof u == "string") {
-      const a = H(u);
-      if (a > 0) {
-        t.push(u);
-        for (let h = 0; h < a; h++)
-          n.push(o[l + h + 1]);
-        l += a;
+  for (let E = 0; E < o.length; E++) {
+    const l = o[E];
+    if (typeof l == "object")
+      t.push("%o"), n.push(l);
+    else if (typeof l == "string") {
+      const A = _(l);
+      if (A > 0) {
+        t.push(l);
+        for (let p = 0; p < A; p++)
+          n.push(o[E + p + 1]);
+        E += A;
       } else
-        t.push("%s"), n.push(u);
+        t.push("%s"), n.push(l);
     } else
-      t.push("%s"), n.push(u);
+      t.push("%s"), n.push(l);
   }
-  const f = {};
-  Error.captureStackTrace(f, i);
-  const r = (f.stack || "").match(/at .*/g) || [];
-  t.push("%c"), n.push(W[d[e]]);
-  const m = [
+  const a = {};
+  Error.captureStackTrace(a, i);
+  const s = (a.stack || "").match(/at .*/g) || [];
+  t.push("%c"), n.push(j[h[u]]);
+  const F = [
     "",
-    "",
-    `\u8C03\u7528\u65F6\u95F4\uFF1A${q(new Date())}`,
-    `\u65E5\u5FD7\u7EA7\u522B\uFF1A${d[e]}`
+    `\u8C03\u7528\u65F6\u95F4\uFF1A${y(new Date())}`
   ];
-  return r.splice(0, 1), r.length > 0 && (m.push("\u8C03\u7528\u5806\u6808\uFF1A%s"), n.push(`${r.join(`
-         `)}`)), t.push(m.join(`
+  return D && F.push(`\u65E5\u5FD7\u7EA7\u522B\uFF1A${h[u]}`), g && (s.splice(0, 1), f > 0 && s.length > f && s.splice(f, s.length - f), s.length > 0 && F.push(`\u8C03\u7528\u5806\u6808\uFF1A${s.join(`\r
+         `)}`)), t.push(F.join(`\r
 `)), [t.join(" "), ...n];
-}, E = console.log, F = console.error, p = console.info, b = console.trace, D = console.warn, y = console.debug, R = function(...e) {
-  c <= 6 && F(...s ? i(6, ...e) : e);
-}, w = function(...e) {
-  c <= 3 && E(...s ? i(3, ...e) : e);
-}, A = function(...e) {
-  c <= 4 && p(...s ? i(4, ...e) : e);
-}, j = function(...e) {
-  c <= 2 && y(...s ? i(2, ...e) : e);
-}, v = function(...e) {
-  c <= 1 && b(...s ? i(1, ...e) : e);
-}, O = function(...e) {
-  c <= 5 && D(...s ? i(5, ...e) : e);
+}, w = console.log, m = console.error, e = console.info, B = console.trace, k = console.warn, O = console.debug, $ = function(...u) {
+  r <= 6 && m(...c ? i(6, ...u) : u);
+}, S = function(...u) {
+  r <= 3 && w(...c ? i(3, ...u) : u);
+}, C = function(...u) {
+  r <= 4 && e(...c ? i(4, ...u) : u);
+}, G = function(...u) {
+  r <= 2 && O(...c ? i(2, ...u) : u);
+}, N = function(...u) {
+  r <= 1 && B(...c ? i(1, ...u) : u);
+}, b = function(...u) {
+  r <= 5 && k(...c ? i(5, ...u) : u);
 };
-let s = !0, c = 1;
-const P = {
+let c = !0, D = !0, g = !0, f = 0, r = 1;
+const x = {
   get version() {
-    return U.version;
+    return d;
   },
   get showDetail() {
-    return s;
-  },
-  set showDetail(e) {
-    p(e ? "\u5F00\u542F\u65E5\u5FD7\u8BE6\u60C5" : "\u5173\u95ED\u65E5\u5FD7\u8BE6\u60C5"), s = e;
-  },
-  get level() {
     return c;
   },
-  set level(e) {
-    p(`\u8BBE\u7F6E\u65E5\u5FD7\u663E\u793A\u7EA7\u522B\u4E3A\uFF1A${d[e]}`), c = e;
+  set showDetail(u) {
+    e(u ? "\u5F00\u542F\u65E5\u5FD7\u8BE6\u60C5" : "\u5173\u95ED\u65E5\u5FD7\u8BE6\u60C5"), c = u;
   },
-  error: R,
-  log: w,
-  info: A,
-  debug: j,
-  trace: v,
-  warn: O,
+  get showLevel() {
+    return D;
+  },
+  set showLevel(u) {
+    e(u ? "\u5F00\u542F\u65E5\u5FD7\u7EA7\u522B\u663E\u793A" : "\u5173\u95ED\u65E5\u5FD7\u7EA7\u522B\u663E\u793A"), D = u;
+  },
+  get showStack() {
+    return g;
+  },
+  set showStack(u) {
+    e(u ? "\u5F00\u542F\u5806\u6808\u4FE1\u606F\u663E\u793A" : "\u5173\u95ED\u5806\u6808\u4FE1\u606F\u663E\u793A"), g = u;
+  },
+  get maxStackLevel() {
+    return f;
+  },
+  set maxStackLevel(u) {
+    e("\u9650\u5236\u5806\u6808\u5C42\u7EA7\u6700\u591A\u4E3A" + u + "(0\u4E0D\u9650\u5236)"), f = u;
+  },
+  get level() {
+    return r;
+  },
+  set level(u) {
+    e(`\u8BBE\u7F6E\u65E5\u5FD7\u663E\u793A\u7EA7\u522B\u4E3A\uFF1A${h[u]}`), r = u;
+  },
+  error: $,
+  log: S,
+  info: C,
+  debug: G,
+  trace: N,
+  warn: b,
   replaceConsole() {
-    console.log = w, console.error = R, console.debug = j, console.trace = v, console.info = A, console.warn = O;
+    console.log = S, console.error = $, console.debug = G, console.trace = N, console.info = C, console.warn = b;
   }
 };
 export {
-  P as default
+  x as default
 };

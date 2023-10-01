@@ -9,6 +9,9 @@ declare enum LogLevel {
 declare const GeLog: {
     readonly version: string;
     showDetail: boolean;
+    showLevel: boolean;
+    showStack: boolean;
+    maxStackLevel: number;
     level: LogLevel;
     error: (...args: any) => void;
     log: (...args: any) => void;
