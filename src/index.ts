@@ -1,4 +1,4 @@
-import {version} from '../package.json'
+import { version } from '../package.json'
 // 定义日志等级
 enum LogLevel {
   TRACE = 1,
@@ -20,11 +20,11 @@ const Style: { [name: string]: string } = {
 // 格式化日期
 const formatDate = (date: Date): string => {
   const year = date.getFullYear()
-  const month = date.getMonth() + 1
-  const day = date.getDate()
-  const hour = date.getHours()
-  const minute = date.getMinutes()
-  const second = date.getSeconds()
+  const month = `${date.getMonth() + 1}`.padStart(2,'0')
+  const day = `${date.getDate()}`.padStart(2,'0')
+  const hour = `${date.getHours()}`.padStart(2,'0')
+  const minute = `${date.getMinutes()}`.padStart(2,'0')
+  const second = `${date.getSeconds()}`.padStart(2,'0')
   return `${year}-${month}-${day} ${hour}:${minute}:${second}`
 }
 // 查询打印参数中占位符个数
@@ -66,9 +66,9 @@ const generateMessage = (level: LogLevel, ...args: any) => {
     }
   }
 
-  const obj: any = {};
-  (Error as any).captureStackTrace(obj, generateMessage)
-  const stack = obj.stack || ''
+  const err = new Error();
+  (Error as any).captureStackTrace(err, generateMessage)
+  const stack = err.stack || ''
   const matchResult = stack.match(/at .*/g) || []
   arr1.push('%c')
   arr2.push(Style[LogLevel[level]])
@@ -81,13 +81,18 @@ const generateMessage = (level: LogLevel, ...args: any) => {
   }
 
   if (showStack) {
-    // 处理堆栈信息
-    matchResult.splice(0, 1)
-    if (maxStackLevel > 0 && matchResult.length > maxStackLevel) {
-      matchResult.splice(maxStackLevel, matchResult.length - maxStackLevel)
-    }
-    if (matchResult.length > 0) {
-      arr.push(`调用堆栈：${matchResult.join('\r\n         ')}`)
+    if (maxStackLevel == 0) {
+      arr.push(`调用堆栈：`)
+      arr2.push(err)
+    } else {
+      // 处理堆栈信息
+      matchResult.splice(0, 1)
+      if (maxStackLevel > 0 && matchResult.length > maxStackLevel) {
+        matchResult.splice(maxStackLevel, matchResult.length - maxStackLevel)
+      }
+      if (matchResult.length > 0) {
+        arr.push(`调用堆栈：${matchResult.join('\r\n         ')}`)
+      }
     }
   }
   arr1.push(arr.join('\r\n'))
